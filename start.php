@@ -23,11 +23,10 @@ function present_init() {
 	//elgg_register_css('deck', 'mod/present/vendor/deck/deck.core.css');
 
 	$actions_base = elgg_get_plugins_path() . 'present/actions/present';
-	elgg_register_action('present/upload', "$actions_base/upload.php");
 	elgg_register_action('present/delete', "$actions_base/delete.php");
 }
 
 function present_page_handler($segments) {
-	$handler = new PresentPageHandler();
+	$handler = new PresentRequestHandler();
 	return $handler->route($segments);
 }

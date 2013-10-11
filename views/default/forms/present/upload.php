@@ -9,15 +9,37 @@ $desc = elgg_extract('description', $vars, '');
 $tags = elgg_extract('tags', $vars, '');
 $access_id = elgg_extract('access_id', $vars, ACCESS_DEFAULT);
 $container_guid = elgg_extract('container_guid', $vars);
+$upload_type = elgg_extract('upload_type', $vars, 'pdf');
+
+if ($upload_type == 'pdf') {
+	$file_input = elgg_view('input/file', array(
+		'name' => 'file',
+		'accept' => 'application/pdf',
+	));
+	$file_label = elgg_echo('present:label:pdf');
+	$file_help = elgg_echo('present:help:pdf_upload');
+} else {
+	$file_input = elgg_view('input/file', array(
+		'name' => 'file[]',
+		'accept' => 'image/*',
+		'multiple' => 'multiple',
+	));
+	$file_label = elgg_echo('present:label:images');
+	$file_help = elgg_echo('present:help:images_upload');	
+}
 
 ?>
+<div>
+	<?php echo elgg_echo('present:help:upload'); ?>
+</div>
 <div>
 	<label><?php echo elgg_echo('title'); ?></label><br />
 	<?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
 </div>
 <div>
-	<label><?php echo elgg_echo('file'); ?></label><br />
-	<?php echo elgg_view('input/file', array('name' => 'file')); ?>
+	<label><?php echo $file_label; ?></label><br />
+	<?php echo $file_input; ?>
+	<span class="elgg-help"><?php echo $file_help; ?></span>
 </div>
 <div>
 	<label><?php echo elgg_echo('description'); ?></label>
