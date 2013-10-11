@@ -1,0 +1,11 @@
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/cash/slicer"
+        }
+	],
+    "require": {
+        "cash/slicer": "dev-master"
+    }
+}
