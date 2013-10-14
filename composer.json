@@ -1,4 +1,7 @@
 {
+    "name": "cash/present",
+    "description": "present plugin for Elgg",
+    "license": "MIT",
     "repositories": [
         {
             "type": "vcs",
@@ -6,6 +9,7 @@
         }
 	],
     "require": {
-        "cash/slicer": "dev-master"
+        "cash/slicer": "dev-master",
+        "fortawesome/font-awesome": "v3.2.1"
     }
 }

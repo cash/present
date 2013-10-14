@@ -8,6 +8,10 @@ elgg.provide('elgg.present');
 
 elgg.present.init = function() {
 	$.deck('.slide', {
+		automatic: {
+			startRunning: false,
+			cycle: false
+		}
 	});
 };
 
@@ -20,3 +24,4 @@ $deck_path = elgg_get_config('path') . 'mod/present/vendor/deck';
 readfile("$deck_path/deck.core.js");
 readfile("$deck_path/deck.navigation.js");
 readfile("$deck_path/deck.status.js");
+readfile("$deck_path/deck.automatic.js");

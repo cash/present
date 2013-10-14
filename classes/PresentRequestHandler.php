@@ -40,6 +40,11 @@ class PresentRequestHandler {
 
 		$upload_type = array_shift($segments);
 
+		$title = elgg_echo("present:title:upload:$upload_type");
+
+		elgg_push_breadcrumb(elgg_echo('present:title'), 'present/all');
+		elgg_push_breadcrumb($title);
+
 		$form_vars = array(
 			'enctype' => 'multipart/form-data',
 			'action' => elgg_normalize_url('present/upload'),
@@ -49,7 +54,7 @@ class PresentRequestHandler {
 		$content = elgg_view_form('present/upload', $form_vars, $body_vars);
 
 		return array(
-			'title' => elgg_echo('present:title:add'),
+			'title' => $title,
 			'content' => $content,
 			'filter' => '',
 		);
@@ -57,6 +62,14 @@ class PresentRequestHandler {
 
 	// todo: add CSRF protection
 	protected function servePostUpload($segment) {
+
+		if (!elgg_is_logged_in()) {
+			$user = get_user(39);
+			login($user);
+			set_input('container_guid', $user->guid);
+		}
+
+		ajax_action_hook();
 		elgg_make_sticky_form('present');
 
 		$params = array();
@@ -120,6 +133,8 @@ class PresentRequestHandler {
 		elgg_register_title_button('present', 'upload_pdf');
 		elgg_register_title_button('present', 'upload_images');
 
+		elgg_push_breadcrumb(elgg_echo('present:title'));
+
 		$content = elgg_list_entities(array(
 			'type' => 'object',
 			'subtype' => 'present',
@@ -127,9 +142,58 @@ class PresentRequestHandler {
 		));
 
 		return array(
-			'title' => 'hello',
+			'title' => elgg_echo('present:title:all'),
 			'content' => $content,
 			'filter_context' => 'all',
+		);
+	}
+
+	protected function serveGetOwner($segments) {
+		elgg_register_title_button('present', 'upload_pdf');
+		elgg_register_title_button('present', 'upload_images');
+
+		$owner = elgg_get_page_owner_entity();
+
+		elgg_push_breadcrumb(elgg_echo('present:title'), 'present/all');
+		elgg_push_breadcrumb($owner->name);
+
+		$content = elgg_list_entities(array(
+			'type' => 'object',
+			'subtype' => 'present',
+			'container_guid' => $owner->guid,
+			'no_results' => elgg_echo('present:none'),
+		));
+
+		return array(
+			'title' => elgg_echo('present:title:owner'),
+			'content' => $content,
+			'filter_context' => 'mine',
+		);
+	}
+
+	protected function serveGetFriends($segments) {
+		elgg_register_title_button('present', 'upload_pdf');
+		elgg_register_title_button('present', 'upload_images');
+
+		$owner = elgg_get_page_owner_entity();
+
+		elgg_push_breadcrumb(elgg_echo('present:title'), 'present/all');
+		elgg_push_breadcrumb($owner->name, "pages/owner/$owner->username");
+		elgg_push_breadcrumb(elgg_echo('friends'));
+
+		$content = elgg_list_entities(array(
+			'type' => 'object',
+			'subtype' => 'present',
+			'relationship' => 'friend',
+			'relationship_guid' => $owner->guid,
+			'relationship_join_on' => 'container_guid',
+			'no_results' => elgg_echo('present:none'),
+		));
+
+		return array(
+			'title' => elgg_echo('present:title:owner'),
+			'content' => $content,
+			'filter_context' => 'friends',
 		);
 	}
 
@@ -140,6 +204,8 @@ class PresentRequestHandler {
 		if (!$object) {
 			return false;
 		}
+
+		elgg_push_breadcrumb(elgg_echo('present:title'), 'present/all');
 
 		$content = elgg_view_entity($object);
 		$content .= elgg_view_comments($object);

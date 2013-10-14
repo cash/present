@@ -19,8 +19,7 @@ function present_init() {
 	elgg_register_simplecache_view('css/present');
 	elgg_register_css('present', $present_css);
 	
-	//elgg_register_js('deck', 'mod/present/vendor/deck/deck.core.js', 'footer');
-	//elgg_register_css('deck', 'mod/present/vendor/deck/deck.core.css');
+	elgg_register_css('font-awesome', 'mod/present/vendor/fortawesome/font-awesome/css/font-awesome.min.css');
 
 	$actions_base = elgg_get_plugins_path() . 'present/actions/present';
 	elgg_register_action('present/delete', "$actions_base/delete.php");

@@ -39,7 +39,7 @@ if ($upload_type == 'pdf') {
 <div>
 	<label><?php echo $file_label; ?></label><br />
 	<?php echo $file_input; ?>
-	<span class="elgg-help"><?php echo $file_help; ?></span>
+	<span class="elgg-text-help"><?php echo $file_help; ?></span>
 </div>
 <div>
 	<label><?php echo elgg_echo('description'); ?></label>

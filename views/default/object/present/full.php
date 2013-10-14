@@ -4,8 +4,8 @@
  */
 
 elgg_load_js('present');
-//elgg_load_js('deck');
 elgg_load_css('present');
+elgg_load_css('font-awesome');
 
 $object = $vars['entity'];
 
